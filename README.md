@@ -118,7 +118,7 @@ Build breitling-league from the source and intsall dependencies:
 
 Password for all accounts: **password**
 
---
+---
 
 Developed with ❤️ for Breitling as part of the ProjArt course at HEIG-VD
 

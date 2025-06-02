@@ -12,11 +12,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserSeeder::class,
-            BadgeSeeder::class,
-            NoveltySeeder::class,
-            QuizQuestionSeeder::class,
-            RankSeeder::class,
+            RankSeeder::class,          // Doit être en premier pour les relations
+            UserSeeder::class,          // Utilisateurs de base
+            BadgeSeeder::class,         // Badges avant les novelties
+            NoveltySeeder::class,       // Nouveautés qui dépendent des badges
+            QuizQuestionSeeder::class,  // Dépend des nouveautés
+            HistoriqueSeeder::class,    // Historiques après utilisateurs
+            NoveltiesArenaSeeder::class, // Dépend des nouveautés
+            NoveltySeeder::class,       // Nouveautés supplémentaires
+            ResponsesSeeder::class,     // Réponses après questions
+            UserBadgesSeeder::class,    // Relations utilisateurs-badges
+            QuizBattlesSeeder::class,   // Batailles de quiz
         ]);
     }
 }

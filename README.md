@@ -131,8 +131,7 @@ Ensure you have the following installed on your system:
     ```bash
     git clone https://github.com/d-vale/breitling-league.git
     cd breitling-league
-    chmod +x setup.sh
-    ./setup.sh
+    npm run setup
     ```
 
 2. **Start the development server:**
@@ -300,6 +299,9 @@ The application features a comprehensive database design:
 ### Available Scripts
 
 ```bash
+# Setup the project
+npm run setup
+
 # Development
 composer run dev          # Start full development environment
 php artisan serve         # Backend server only

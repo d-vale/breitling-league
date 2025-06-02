@@ -373,23 +373,6 @@ The application includes realistic test data:
 3. **UI/UX**: Study the component library and design system
 4. **Testing**: Follow existing test patterns in `tests/` directory
 
-## 🤝 Contributing
-
-We welcome contributions from the community! Please follow these guidelines:
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** your changes: `git commit -m 'Add amazing feature'`
-4. **Push** to the branch: `git push origin feature/amazing-feature`
-5. **Open** a Pull Request
-
-### Contribution Guidelines
-
-- Follow existing code style and conventions
-- Add tests for new features
-- Update documentation as needed
-- Ensure all tests pass before submitting
-
 ## 📄 License
 
 This project is developed for educational purposes as part of the ProjArt course at HEIG-VD.

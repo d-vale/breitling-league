@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('badge_id');
+            $table->dateTime('date_obtained')->nullable(); // Date d'obtention du badge par l'utilisateur
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

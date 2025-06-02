@@ -336,16 +336,16 @@ The project includes comprehensive testing:
 
 ```bash
 php artisan test                    # Run all tests
-php artisan test --filter=Feature  # Feature tests only
-php artisan test --filter=Unit     # Unit tests only
+php artisan test --filter=Feature   # Feature tests only
+php artisan test --filter=Unit      # Unit tests only
 ```
 
 ### Frontend Testing
 
 ```bash
-npm run test           # Run JavaScript tests
-npm run test:watch     # Watch mode for development
-npm run test:coverage  # Generate coverage report
+npm run test              # Run JavaScript tests
+npm run test:watch        # Watch mode for development
+npm run test:coverage     # Generate coverage report
 ```
 
 ### Test Data

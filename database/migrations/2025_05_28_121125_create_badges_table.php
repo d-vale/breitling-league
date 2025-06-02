@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('badge'); // image
             $table->string('name', 255);
-            $table->dateTime('date_obtained')->nullable();
             $table->timestamps();
         });
     }

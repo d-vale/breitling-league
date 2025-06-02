@@ -14,22 +14,16 @@ class Badge extends Model
     protected $table = 'badges';
 
     protected $fillable = [
-        'badge', // image
+        'badge',
         'name',
-        'date_obtained',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'date_obtained' => 'datetime',
-        ];
-    }
 
     // Relations
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_badges')->withTimestamps();
+        return $this->belongsToMany(User::class, 'user_badges')
+            ->withPivot('date_obtained')
+            ->withTimestamps();
     }
 
     public function novelties(): HasMany

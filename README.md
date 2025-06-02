@@ -300,11 +300,11 @@ The application features a comprehensive database design:
 
 ```bash
 # Setup the project
-npm run setup
+npm run setup            # Setup all project
 
 # Development
-composer run dev          # Start full development environment
-php artisan serve         # Backend server only
+composer run dev         # Start full development environment
+php artisan serve        # Backend server only
 npm run dev              # Frontend development server
 
 # Building
@@ -318,7 +318,7 @@ npm run types            # TypeScript type checking
 
 # Testing
 php artisan test         # Run PHP tests
-npm run test            # Run JavaScript tests
+npm run test             # Run JavaScript tests
 ```
 
 ### Development Guidelines

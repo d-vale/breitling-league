@@ -97,6 +97,7 @@ npm run build
 # Optimisation pour la production (optionnel)
 echo "⚡ Optimisation des performances..."
 php artisan config:cache
+php artisan route:clear
 php artisan route:cache
 php artisan view:cache
 

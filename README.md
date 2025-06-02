@@ -32,8 +32,6 @@
 </div>
 <br>
 
----
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -45,8 +43,6 @@
 - [Application Access](#application-access)
     - [Administrator account](#administrator-account)
     - [Other available test accounts](#Other-available-test-accounts)
-
----
 
 ## Overview
 
@@ -61,8 +57,6 @@ This project enhances user experience and engagement within the Breitling commun
 - 🧪 **Robust Testing Framework:** PHPUnit configuration ensures code quality and reliability through structured testing.
 - 🎨 **Customizable UI Components:** Utilizes Tailwind CSS and Lucide icons for a consistent and visually appealing design.
 - 🏆 **User Engagement Features:** Includes badges, ranks, and historical tracking to motivate users and enhance interaction.
-
----
 
 ## Getting Started
 
@@ -99,8 +93,6 @@ Build breitling-league from the source and intsall dependencies:
     ```sh
     ❯ composer run dev
     ```
-
----
 
 ## Application Access
 

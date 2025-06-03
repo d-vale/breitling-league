@@ -27,9 +27,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('ranking')->group(function () {
-            Route::get('/global', [RankingController::class, 'getGlobalRanking'])->name('');
-            Route::get('/league', [RankingController::class, 'getLeagueRanking'])->name('');
-            Route::get('/pos', [RankingController::class, 'getPosRanking'])->name('');
+            Route::get('/global', [RankingController::class, 'getGlobalRanking'])->name('r');
+            Route::get('/league', [RankingController::class, 'getLeagueRanking'])->name('ranking.league');
+            Route::get('/pos', [RankingController::class, 'getPosRanking'])->name('ranking.pos');
         });
 
         Route::prefix('quiz')->group(function () {
@@ -51,14 +51,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/results', [ArenaController::class, 'getArenaResults'])->name('');
         });
 
-        Route::prefix('user')->group(function () {
-            Route::get('/', [UserController::class, 'getUser'])->name('');
-            Route::get('/history', [UserController::class, 'getUserHistory'])->name('');
-            Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('');
+        Route::prefix('/user')->group(function () {
+            Route::get('/', [UserController::class, 'getUser'])->name('user.get'); 
+            Route::get('/history', [UserController::class, 'getUserHistory'])->name('user.history'); 
+            Route::get('/history/{type}', [UserController::class, 'getFilteredHistory'])->name('user.history_filtered');
+            Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('user.placement');
         });
 
         Route::prefix('images')->group(function () {
-            Route::get('/{image_path}', [ImagesController::class, 'getImage'])->name('');
+            Route::get('/{image_path}', [ImagesController::class, 'getImage'])
+                ->where('image_path', '.*')
+                ->name('images.get');
+            Route::get('/info/{image_path}', [ImagesController::class, 'getImageInfo'])
+                ->where('image_path', '.*')
+                ->name('images.info');
+            Route::post('/upload', [ImagesController::class, 'uploadImage'])->name('images.upload');
+            Route::get('/', [ImagesController::class, 'listImages'])->name('images.list');
         });
     });
 });

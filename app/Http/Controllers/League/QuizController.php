@@ -229,22 +229,10 @@ class QuizController extends Controller
                 ], 400);
             }
 
-            // Vérifier si l'utilisateur a déjà répondu à cette question
-            $existingResponse = Response::where('user_id', $user->id)
-                ->where('questions_id', $request->question_id)
-                ->first();
-
-            if ($existingResponse) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Vous avez déjà répondu à cette question',
-                ], 400);
-            }
-
             // Déterminer si la réponse est correcte
             $isCorrect = $choice->correcte;
 
-            // Enregistrer la réponse
+            // Enregistrer temporairement la réponse
             $response = Response::create([
                 'user_id' => $user->id,
                 'questions_id' => $request->question_id,
@@ -270,12 +258,11 @@ class QuizController extends Controller
             // Mettre à jour les points de l'utilisateur si la réponse est correcte
             if ($isCorrect) {
                 $user->increment('points', $pointsEarned);
-
                 // Vérifier si l'utilisateur peut changer de rang
                 $this->checkAndUpdateUserRank($user);
             }
 
-            // Enregistrer dans l'historique si c'est la dernière question du quiz
+            // Vérifier la progression du quiz
             $quiz = Quiz::find($request->quiz_id);
             $totalQuestionsInQuiz = $quiz->questions()->count();
             $userResponsesForQuiz = Response::join('quiz_questions', 'responses.questions_id', '=', 'quiz_questions.questions_id')
@@ -301,22 +288,34 @@ class QuizController extends Controller
                     'date' => now(),
                     'type_quiz' => $request->quiz_type ?? 'Main Quest',
                 ]);
+
+                // Supprimer toutes les réponses de l'utilisateur pour ce quiz
+                Response::join('quiz_questions', 'responses.questions_id', '=', 'quiz_questions.questions_id')
+                    ->where('responses.user_id', $user->id)
+                    ->where('quiz_questions.quiz_id', $request->quiz_id)
+                    ->delete();
+            }
+
+            $responseData = [
+                'is_correct' => $isCorrect,
+                'correct_choice' => [
+                    'choice_id' => $choice->correcte ? $choice->id : $choice->question->choices->where('correcte', true)->first()->id,
+                    'texte' => $choice->correcte ? $choice->texte : $choice->question->choices->where('correcte', true)->first()->texte,
+                ],
+                'points_earned' => $pointsEarned,
+                'response_time_seconds' => $responseTimeSeconds,
+                'user_total_points' => $user->fresh()->points,
+                'quiz_completed' => $userResponsesForQuiz >= $totalQuestionsInQuiz,
+            ];
+
+            // Supprimer la réponse si ce n'est pas la dernière question
+            if ($userResponsesForQuiz < $totalQuestionsInQuiz) {
+                $response->delete();
             }
 
             return response()->json([
                 'success' => true,
-                'data' => [
-                    'response_id' => $response->id,
-                    'is_correct' => $isCorrect,
-                    'correct_choice' => [
-                        'choice_id' => $choice->correcte ? $choice->id : $choice->question->choices->where('correcte', true)->first()->id,
-                        'texte' => $choice->correcte ? $choice->texte : $choice->question->choices->where('correcte', true)->first()->texte,
-                    ],
-                    'points_earned' => $pointsEarned,
-                    'response_time_seconds' => $responseTimeSeconds,
-                    'user_total_points' => $user->fresh()->points,
-                    'quiz_completed' => $userResponsesForQuiz >= $totalQuestionsInQuiz,
-                ],
+                'data' => $responseData,
             ]);
         } catch (\Exception $e) {
             return response()->json([

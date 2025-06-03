@@ -20,7 +20,6 @@ class DatabaseSeeder extends Seeder
             HistoriqueSeeder::class,    // Historiques après utilisateurs
             NoveltiesArenaSeeder::class, // Dépend des nouveautés
             NoveltySeeder::class,       // Nouveautés supplémentaires
-            ResponsesSeeder::class,     // Réponses après questions
             UserBadgesSeeder::class,    // Relations utilisateurs-badges
             QuizBattlesSeeder::class,   // Batailles de quiz
         ]);

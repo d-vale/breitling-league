@@ -38,10 +38,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::post('/response', [QuizController::class, 'saveAnswer'])->name('');
 
             Route::prefix('battle')->group(function () {
-                Route::get('/{quiz-id}', [BattleController::class, 'getBattleQuiz'])->name('');
-                Route::post('/{quiz-id}', [BattleController::class, 'getBattleQuiz'])->name('');
-                /*  Route::post('/bet', [BattleController::class, 'placeBetForBattle'])->name(''); */
-                Route::delete('/', [BattleController::class, 'deleteQuiz'])->name('');
+                Route::get('/', [BattleController::class, 'getBattles'])->name('');
+                Route::get('/{quizId}', [BattleController::class, 'getBattleQuiz'])->name('');
+                Route::post('/{quizId}', [BattleController::class, 'postBattleQuiz'])->name('');
+                Route::delete('/', [BattleController::class, 'deleteBattle'])->name('');
             });
         });
 

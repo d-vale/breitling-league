@@ -26,13 +26,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return response()->json(['message' => 'Test API endpoint']);
         });
 
-        Route::prefix('ranking')->group(function () {
-            Route::get('/global', [RankingController::class, 'getGlobalRanking'])->name('');
-            Route::get('/league', [RankingController::class, 'getLeagueRanking'])->name('');
-            Route::get('/pos', [RankingController::class, 'getPosRanking'])->name('');
+        Route::prefix('/ranking')->group(function () {
+            Route::get('/global', [RankingController::class, 'getGlobalRanking'])->name('ranking.global');
+            Route::get('/league', [RankingController::class, 'getLeagueRanking'])->name('ranking.league');
+            Route::get('/pos', [RankingController::class, 'getPosRanking'])->name('ranking.pos');
         });
 
-        Route::prefix('quiz')->group(function () {
+        Route::prefix('/quiz')->group(function () {
             Route::get('/', [QuizController::class, 'getNewQuiz'])->name('');
             Route::get('/placement', [QuizController::class, 'getPlacementQuiz'])->name('');
             Route::post('/response', [QuizController::class, 'saveAnswer'])->name('');
@@ -45,20 +45,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
         });
 
-        Route::prefix('novelties')->group(function () {
+        Route::prefix('/novelties')->group(function () {
             Route::get('/', [ArenaController::class, 'isNoveltyOccuring'])->name('');
             Route::get('/arena-quiz', [ArenaController::class, 'getArenaQuiz'])->name('');
             Route::get('/results', [ArenaController::class, 'getArenaResults'])->name('');
         });
 
-        Route::prefix('user')->group(function () {
-            Route::get('/', [UserController::class, 'getUser'])->name('');
-            Route::get('/history', [UserController::class, 'getUserHistory'])->name('');
-            Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('');
+        Route::prefix('/user')->group(function () {
+            Route::get('/', [UserController::class, 'getUser'])->name('user.get');
+            Route::get('/history', [UserController::class, 'getUserHistory'])->name('user.history');
+            Route::get('/history/{type}', [UserController::class, 'getFilteredHistory'])->name('user.history_filtered');
+            Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('user.placement');
         });
 
-        Route::prefix('images')->group(function () {
-            Route::get('/{image_path}', [ImagesController::class, 'getImage'])->name('');
+        Route::prefix('/images')->group(function () {
+            Route::get('/info/{image_path}', [ImagesController::class, 'getImageInfo'])->name('images.info');
+            Route::get('/{image_path}', [ImagesController::class, 'getImage'])->name('images.get');
+            Route::get('/', [ImagesController::class, 'listImages'])->name('images.list');
         });
     });
 });

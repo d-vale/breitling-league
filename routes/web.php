@@ -39,7 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             Route::prefix('battle')->group(function () {
                 Route::get('/{quiz-id}', [BattleController::class, 'getBattleQuiz'])->name('');
-                Route::post('/bet', [BattleController::class, 'placeBetForBattle'])->name('');
+                Route::post('/{quiz-id}', [BattleController::class, 'getBattleQuiz'])->name('');
+                /*  Route::post('/bet', [BattleController::class, 'placeBetForBattle'])->name(''); */
+                Route::delete('/', [BattleController::class, 'deleteQuiz'])->name('');
             });
         });
 
@@ -50,9 +52,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 
         Route::prefix('user')->group(function () {
-            Route::get('/', [UserController::class, 'isNoveltyOccuring'])->name('');
-            Route::get('/history', [UserController::class, 'getArenaQuiz'])->name('');
-            Route::get('/placement-progress', [UserController::class, 'getArenaResults'])->name('');
+            Route::get('/', [UserController::class, 'getUser'])->name('');
+            Route::get('/history', [UserController::class, 'getUserHistory'])->name('');
+            Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('');
         });
 
         Route::prefix('images')->group(function () {

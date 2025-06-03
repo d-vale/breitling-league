@@ -53,7 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'getUser'])->name('');
-            Route::get('/history', [UserController::class, 'getUserHistory  '])->name('');
+            Route::get('/history', [UserController::class, 'getUserHistory'])->name('');
             Route::get('/placement-progress', [UserController::class, 'getUserPlacement'])->name('');
         });
 

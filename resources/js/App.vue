@@ -8,12 +8,12 @@ import { RouterView } from "vue-router";
 
 <style>
 :root {
-    background-color: var(--bg-default);
+    background-color: #000000;
 }
 
 html,
 body {
-    background-color: var(--bg-default);
+    background-color: #000000;
     overflow-x: hidden;
 }
 

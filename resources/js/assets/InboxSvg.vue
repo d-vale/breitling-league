@@ -1,10 +1,7 @@
-<script setup>
-import InboxSvg from "@/assets/InboxSvg.vue";
-</script>
+<script setup></script>
 
 <template>
-    <div>
-       <svg
+    <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
@@ -13,7 +10,7 @@ import InboxSvg from "@/assets/InboxSvg.vue";
     >
         <path
             d="M22 12H16L14 15H10L8 12H2"
-            stroke="#ffffff"
+            stroke="#F5F5F5"
             stroke-width="1.2"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -26,18 +23,6 @@ import InboxSvg from "@/assets/InboxSvg.vue";
             stroke-linejoin="round"
         />
     </svg>
-    </div>
 </template>
 
-<style scoped>
-div {
-    width: 52px;
-    height: 52px;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #171717;
-    border-radius: 1000px;
-}
-</style>
+<style scoped></style>

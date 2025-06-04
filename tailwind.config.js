@@ -19,7 +19,6 @@ module.exports = {
         
         // Couleurs spéciales
         'diamond': '#b9f2ff',
-        'your-ranking': '#ffe16c',
         
         // Couleurs fonctionnelles
         'bonus-green': '#60da7a',

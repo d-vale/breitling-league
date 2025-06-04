@@ -1,5 +1,38 @@
 @import "tailwindcss";
 
+/* Italian Plate No2 Font Family */
+@font-face {
+  font-family: 'Italian Plate No2';
+  src: url('../fonts/italian-plate-no2/ItalianPlateNo2-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Italian Plate No2';
+  src: url('../fonts/italian-plate-no2/ItalianPlateNo2-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Italian Plate No2';
+  src: url('../fonts/italian-plate-no2/ItalianPlateNo2-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Italian Plate No2';
+  src: url('../fonts/italian-plate-no2/ItalianPlateNo2-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Primitives - Couleurs de base qui ne changent pas */
 :root {
   /* Couleurs fixes */

@@ -1,14 +1,9 @@
 <script setup>
- 
+import TheNavBar from "../components/TheNavBar.vue";
 </script>
 
 <template>
-    <div class="home text-2xl">
-        <h1>Welcome to the Home Page</h1>
-        <p>This is the main content of the home page.</p>
-    </div>
+    <TheNavBar />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -93,4 +93,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(Historique::class, 'users_id');
     }
+
+    public function podiumResults(): HasMany
+    {
+        return $this->hasMany(Podium::class);
+    }
+
+    public function podiumWins(): HasMany
+    {
+        return $this->hasMany(Podium::class)->where('position', '<=', 3);
+    }
+
+    public function firstPlaces(): HasMany
+    {
+        return $this->hasMany(Podium::class)->where('position', 1);
+    }
+
+    // Méthodes utilitaires pour User
+    public function getTotalArenaWins(): int
+    {
+        return $this->podiumWins()->count();
+    }
+
+    public function getTotalFirstPlaces(): int
+    {
+        return $this->firstPlaces()->count();
+    }
+
+    public function getTotalArenaPoints(): int
+    {
+        return $this->podiumResults()->sum('points_awarded');
+    }
 }

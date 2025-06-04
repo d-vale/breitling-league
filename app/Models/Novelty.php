@@ -44,4 +44,21 @@ class Novelty extends Model
     {
         return $this->hasMany(NoveltiesArena::class, 'novelties_id');
     }
+
+    public function podiumResults(): HasMany
+    {
+        return $this->hasMany(Podium::class, 'novelties_id');
+    }
+
+    public function podiumWinners(): HasMany
+    {
+        return $this->hasMany(Podium::class, 'novelties_id')
+            ->where('position', '<=', 3)
+            ->orderBy('position');
+    }
+
+    public function champion(): ?Podium
+    {
+        return $this->podiumResults()->where('position', 1)->first();
+    }
 }

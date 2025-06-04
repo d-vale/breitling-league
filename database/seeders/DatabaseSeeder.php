@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             NoveltySeeder::class,       // Nouveautés supplémentaires
             UserBadgesSeeder::class,    // Relations utilisateurs-badges
             QuizBattlesSeeder::class,   // Batailles de quiz
+            PodiumSeeder::class,        // Podium des novelties arena (doit être après les users et novelties)
         ]);
     }
 }

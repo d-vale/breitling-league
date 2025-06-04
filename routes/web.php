@@ -20,7 +20,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-
     //API Routes
     Route::prefix('api/v1')->group(function () {
         Route::get('/test', function () {
@@ -46,11 +45,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
         });
 
-        /* A FAIRE */
         Route::prefix('/novelties')->group(function () {
             Route::get('/', [ArenaController::class, 'isNoveltyOccuring'])->name('');
             Route::get('/arena-quiz', [ArenaController::class, 'getArenaQuiz'])->name('');
-            Route::get('/results', [ArenaController::class, 'getArenaResults'])->name('');
+            Route::get('/results/{arenaId}', [ArenaController::class, 'getArenaResults'])->name('');
         });
 
         Route::prefix('/badges')->group(function () {

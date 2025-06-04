@@ -1,7 +1,5 @@
 <script setup>
 import { RouterView } from "vue-router";
-
-
 </script>
 
 <template>
@@ -9,24 +7,19 @@ import { RouterView } from "vue-router";
 </template>
 
 <style>
-
 :root {
-        background-color: var(--bg-default);
-    }
+    background-color: var(--bg-default);
+}
 
-    html,
-    body {
-        background-color: var(--bg-default);
-        overflow-x: hidden;
-    }
+html,
+body {
+    background-color: var(--bg-default);
+    overflow-x: hidden;
+}
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
     display: none;
-}
-
-.bg-bg-default {
-    background-color: var(--bg-default);
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */

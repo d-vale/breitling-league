@@ -1,20 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: [
-      "./index.html",
-      "./src/**/*.{vue,js,ts,jsx,tsx}",
-    ],
-    theme: {
-      extend: {
-        colors: {
-          'card-bg': 'var(--card-bg)',
-          'bg-default': 'var(--bg-default)',
-          'text-default': 'var(--text-default)',
-          'sub-text-lighter': 'var(--sub-text-lighter)',
-          'badge-bg': 'var(--badge-bg)',
-          'badge-text': 'var(--badge-text)',
-        }
-      },
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        // Couleurs Breitling
+        'breitling': '#ffc629',
+        'breitling-blue': '#072c54',
+        
+        // Métaux
+        'bronze': '#cd7f32',
+        'gold': '#ffc629',
+        'silver': '#949494',
+        'platine': '#42b3a7',
+        
+        // Couleurs spéciales
+        'diamond': '#b9f2ff',
+        'your-ranking': '#ffe16c',
+        
+        // Couleurs fonctionnelles
+        'bonus-green': '#60da7a',
+        'malus-red': '#dc2543',
+      }
     },
-    plugins: [],
-  }
+  },
+  plugins: [],
+}

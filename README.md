@@ -1,391 +1,249 @@
-<div id="top">
+# 📚 Lightshelf
 
-<!-- HEADER STYLE: CLASSIC -->
-<div align="center">
+**Lightshelf** est une application minimaliste de gestion de bibliothèque personnelle développée avec **Laravel** (backend) et **Vue.js** (frontend). Cette application permet aux utilisateurs de gérer leur collection de livres de manière intuitive et élégante, avec une interface moderne et réactive.
 
-# BREITLING LEAGUE
 
-<em>Elevate Your Game, Engage with Every Challenge</em>
+## 📋 Table des matières
 
-<!-- BADGES -->
-<img src="https://img.shields.io/github/last-commit/d-vale/breitling-league?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
-<img src="https://img.shields.io/github/languages/top/d-vale/breitling-league?style=flat&color=0080ff" alt="repo-top-language">
-<img src="https://img.shields.io/github/languages/count/d-vale/breitling-league?style=flat&color=0080ff" alt="repo-language-count">
+- [Objectifs du projet](#-objectifs-du-projet)
+- [Architecture technique](#-architecture-technique)
+- [Fonctionnalités implémentées](#-fonctionnalités-implémentées)
+- [Modèle de données](#-modèle-de-données)
+- [Guide d'installation](#-guide-dinstallation)
+- [Sécurité](#-sécurité)
+- [Technologies utilisées](#-technologies-utilisées)
 
-<em>Built with the tools and technologies:</em>
+## ✨ Objectifs du projet
 
-<img src="https://img.shields.io/badge/Laravel-FF2D20.svg?style=flat&logo=Laravel&logoColor=white" alt="Laravel">
-<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React">
-<img src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&logo=TypeScript&logoColor=white" alt="TypeScript">
-<img src="https://img.shields.io/badge/PHP-777BB4.svg?style=flat&logo=PHP&logoColor=white" alt="PHP">
-<img src="https://img.shields.io/badge/SQLite-003B57.svg?style=flat&logo=SQLite&logoColor=white" alt="SQLite">
-<img src="https://img.shields.io/badge/TailwindCSS-06B6D4.svg?style=flat&logo=TailwindCSS&logoColor=white" alt="TailwindCSS">
-<img src="https://img.shields.io/badge/Vite-646CFF.svg?style=flat&logo=Vite&logoColor=white" alt="Vite">
+- Créer une application intuitive pour **organiser, suivre et gérer une collection personnelle de livres**
+- Implémenter manuellement un **système d'authentification personnalisé** sans recourir à des packages comme Laravel Breeze ou Fortify
+- Développer une **Single Page Application (SPA)** performante avec Vue.js et Laravel comme API backend
+- Mettre en pratique les concepts fondamentaux du développement web moderne
 
-</div>
-<br>
+## 🛠️ Architecture technique
 
-## Table of Contents
+### Backend — Laravel
 
-- [📖 Overview](#-overview)
-- [🏆 Project Context](#-project-context)
-- [✨ Key Features](#-key-features)
-- [🎮 Game Modes](#-game-modes)
-- [🚀 Getting Started](#-getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Quick Installation](#quick-installation)
-    - [Manual Installation](#manual-installation)
-- [🌐 Application Access](#-application-access)
-- [👥 Test Accounts](#-test-accounts)
-- [🏗️ Technical Architecture](#️-technical-architecture)
-- [📊 Database Structure](#-database-structure)
-- [👨‍💻 Development](#-development)
-- [🧪 Testing](#-testing)
-- [📚 Documentation](#-documentation)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- **API RESTful** : L'application expose une API complète pour gérer les livres et les utilisateurs
+- **Système d'authentification** : Implémentation personnalisée pour l'inscription, la connexion et la déconnexion
+- **Middlewares** : Protection des routes avec les middlewares `auth` et `guest` de Laravel
+- **Form Requests** : Validation sécurisée des données utilisateur
 
-## 📖 Overview
+### Frontend — Vue.js
 
-The **Breitling League** is a gamified training platform designed to revolutionize Breitling's educational system ahead of the annual Breitling Cup. This innovative application transforms traditional learning into an engaging, competitive experience that motivates sales associates worldwide to enhance their product knowledge and expertise.
+- **Architecture SPA** : Application monopage offrant une expérience fluide
+- **Vue Router** : Gestion avancée des routes côté client
+- **Composables** : Utilisation de composables Vue pour la réutilisation de la logique (ex: `useFetchJson`)
+- **Thème sombre/clair** : Support complet du mode sombre et clair avec transition fluide
 
-## 🏆 Project Context
+## 🌟 Fonctionnalités implémentées
 
-Developed as part of the **ProjArt course at HEIG-VD** for Breitling, the renowned Swiss luxury watchmaker. The project addresses Breitling's need to improve their training system and increase engagement among their global sales network through innovative gamification strategies.
+### Authentification
+- Inscription avec validation et vérification d'unicité email
+- Connexion avec régénération de session (anti-fixation)
+- Modification de profil (prénom, nom, bio)
+- Changement de mot de passe avec validation
 
-### Why Breitling League?
+### Gestion des livres
+- Liste des livres avec filtrage par statut (all, read, to-read, pending)
+- Ajout/modification avec métadonnées complètes (titre, auteur, ISBN, etc.)
+- Stockage d'images de couverture (URL → binaire)
+- Suppression avec validation de propriété
 
-- **Enhanced Engagement**: Transform boring training sessions into exciting competitions
-- **Global Competition**: Connect sales associates worldwide through shared challenges
-- **Knowledge Retention**: Gamified learning improves information retention by up to 75%
-- **Performance Tracking**: Detailed analytics to monitor progress and identify top performers
-- **Scalable Solution**: Designed to accommodate Breitling's global sales network
+### Interface
+- Mode sombre/clair (localStorage + préférence système)
+- Design responsive (mobile, tablette, desktop)
+- Animations et transitions pour le feedback utilisateur
 
-## ✨ Key Features
+## 🌐 Routes
 
-### 🎯 Core Gameplay
+### Routes d'authentification
+```
+GET  /register            → Formulaire d'inscription
+POST /register            → Traitement de l'inscription
+GET  /login               → Formulaire de connexion
+POST /login               → Traitement de la connexion
+GET  /edit-password       → Formulaire de modification de mot de passe
+POST /password/update     → Traitement du changement de mot de passe
+DELETE /logout            → Déconnexion
+```
 
-- **Dynamic Point System**: Earn points through various activities with different multipliers
-- **Progressive Ranking**: 7-tier ranking system from Bronze to Timekeeper
-- **Badge Collection**: Specialized badges for different areas of expertise
-- **Real-time Leaderboards**: Global and regional performance tracking
+### Routes API (prefix: /api/v1)
+```
+GET    /user              → Profil utilisateur
+POST   /user/update       → Mise à jour du profil
+DELETE /user/delete       → Suppression de compte
+GET    /user/books        → Liste des livres de l'utilisateur
+GET    /user/book/{id}    → Détails d'un livre
+POST   /create            → Création d'un livre
+PATCH  /update/{id}       → Modification d'un livre
+DELETE /user/book/{id}    → Suppression d'un livre
+GET    /picture/book/{id} → Image de couverture d'un livre
+```
 
-### 🏅 Engagement Systems
+### Routes SPA
+```
+GET / → Redirige vers la landing page (non connecté) ou SPA (connecté)
+GET /{any} → Charge la SPA pour toutes les routes non-API
+```
 
-- **Training Integration**: Seamlessly connect with existing Breitling education content
-- **Social Competition**: Challenge colleagues and build team spirit
-- **Achievement Tracking**: Comprehensive history of all activities and progress
-- **Performance Analytics**: Detailed insights into learning patterns and strengths
+## 📚 Modèle de données
 
-### 🎨 User Experience
+### Utilisateur (`users`)
 
-- **Modern Interface**: Clean, responsive design optimized for all devices
-- **Intuitive Navigation**: Easy-to-use interface requiring minimal training
-- **Accessibility**: WCAG compliant design ensuring inclusivity
-- **Multi-language Support**: Ready for international deployment
+| Champ              | Type            | Description                              |
+|--------------------|-----------------|------------------------------------------|
+| id                 | integer         | Identifiant unique                       |
+| firstname          | string          | Prénom de l'utilisateur                  |
+| lastname           | string          | Nom de l'utilisateur                     |
+| email              | string          | Email (unique, utilisé pour la connexion)|
+| password           | string (hashé)  | Mot de passe sécurisé                    |
+| bio                | text (nullable) | Biographie ou description personnelle    |
+| admin              | boolean         | Statut administrateur                    |
+| created_at         | timestamp       | Date de création                         |
+| updated_at         | timestamp       | Date de dernière modification            |
 
-## 🎮 Game Modes
+### Livre (`books`)
 
-### 🗺️ Main Quest
+| Champ              | Type            | Description                              |
+|--------------------|-----------------|------------------------------------------|
+| id                 | integer         | Identifiant unique                       |
+| title              | string          | Titre du livre                           |
+| sub_title          | string          | Sous-titre du livre                      |
+| author             | string          | Auteur du livre                          |
+| reading_status     | enum            | Statut de lecture (read, to-read, pending) |
+| resume             | text            | Résumé ou description du livre           |
+| format             | string          | Format du livre (broché, poche, etc.)    |
+| number_of_pages    | integer         | Nombre de pages                          |
+| release_date       | date            | Date de publication                      |
+| editor             | string          | Maison d'édition                         |
+| isbn               | string          | Numéro ISBN                              |
+| cover_image        | binary          | Image de couverture (stockée en binaire) |
+| cover_image_path   | string          | URL d'origine de l'image de couverture   |
+| cover_image_name   | string          | Nom du fichier image                     |
+| user_id            | foreign key     | Référence au propriétaire du livre       |
+| created_at         | timestamp       | Date de création                         |
+| updated_at         | timestamp       | Date de dernière modification            |
 
-The core progression mode featuring:
+## 🚀 Guide d'installation
 
-- **Solo Training**: Individual skill development through structured courses
-- **Novelty Focus**: Special 3-week windows for new product launches
-- **Double Points**: Bonus scoring during novelty release periods
-- **Badge Rewards**: Earn specialized badges for completing training modules
+### Prérequis
 
-### ⚔️ Quiz Battles
+- PHP 8.2 ou supérieur
+- Composer
+- Node.js et npm
+- SQLite (ou autre base de données prise en charge par Laravel)
 
-Competitive peer-to-peer challenges:
+### Étapes d'installation
 
-- **Asynchronous Gameplay**: No need for real-time participation
-- **Risk/Reward System**: Bet points on your performance
-- **Rank-Based Matching**: Compete against players of similar skill level
-- **72-Hour Time Limit**: Strategic timing adds excitement
+1. **Cloner le dépôt**
+   ```bash
+   git clone https://github.com/K-sel/lightshelf.git
+   cd lightshelf
+   ```
 
-### 🏟️ Novelties Arena
+2. **Installer les dépendances PHP**
+   ```bash
+   composer install
+   ```
 
-Intensive tournament mode:
+3. **Installer les dépendances JavaScript**
+   ```bash
+   npm install
+   ```
 
-- **High-Stakes Competition**: Premium rewards for top performers
-- **Limited-Time Events**: 3-week tournaments per product launch
-- **Expert-Level Content**: Challenging questions for product mastery
-- **Podium Rewards**: Special recognition for top 3 finishers
+4. **Créer le fichier d'environnement**
+   ```bash
+   cp .env.example .env
+   ```
 
-## 🚀 Getting Started
+5. **Générer la clé d'application**
+   ```bash
+   php artisan key:generate
+   ```
 
-### Prerequisites
+6. **Configurer la base de données**
+   - Éditer le fichier `.env` pour configurer la connexion à la base de données
+   - Par défaut, l'application utilise SQLite
 
-Ensure you have the following installed on your system:
+7. **Créer la base de données SQLite**
+   ```bash
+   touch database/database.sqlite
+   ```
 
-- **PHP 8.2+** with extensions: `pdo`, `mbstring`, `tokenizer`, `xml`, `ctype`, `json`, `bcmath`
-- **Composer** (latest version)
-- **Node.js 18+** and **npm**
-- **Git** for version control
+8. **Exécuter les migrations et seeders**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-### Quick Installation
+9. **Compiler les assets**
+   ```bash
+   npm run build
+   ```
 
-1. **Clone and setup the project:**
-
-    ```bash
-    git clone https://github.com/d-vale/breitling-league.git
-    cd breitling-league
-    npm run setup
-    ```
-
-2. **Start the development server:**
-
-    ```bash
-    composer run dev
-    ```
-
-3. **Access the application:**
-   Open your browser and navigate to `http://localhost:8000`
-
-### Manual Installation
-
-If you prefer to install manually or the automated script doesn't work:
-
-<details>
-<summary>Click to expand manual installation steps</summary>
-
-1. **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/d-vale/breitling-league.git
-    cd breitling-league
-    ```
-
-2. **Install PHP dependencies:**
-
-    ```bash
-    composer install
-    ```
-
-3. **Install Node.js dependencies:**
-
-    ```bash
-    npm install
-    ```
-
-4. **Environment setup:**
-
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    ```
-
-5. **Database setup:**
-
-    ```bash
-    touch database/database.sqlite
-    php artisan migrate:fresh --seed
-    ```
-
-6. **Build assets:**
-
-    ```bash
-    npm run build
-    php artisan storage:link
-    ```
-
-7. **Start the server:**
+10. **Démarrer le serveur de développement**
     ```bash
     php artisan serve
     ```
 
-</details>
+11. **Accéder à l'application**
+    - Ouvrir le navigateur et accéder à `http://localhost:8000`
+    - Utiliser les identifiants de test : 
+      - Email: `johndoe@seed.com` 
+      - Mot de passe: `password1`
 
-## 🌐 Application Access
+## 🔐 Sécurité
 
-Once installed, access the application at:
+L'application intègre plusieurs mesures de sécurité :
 
-- **Development URL**: `http://localhost:8000`
-- **Production URL**: Configure in your deployment environment
+1. **Protection CSRF** - Tous les formulaires sont protégés contre les attaques CSRF
+2. **Validation des entrées** - Validation stricte côté serveur avec Laravel Form Request
+3. **Hashage des mots de passe** - Utilisation de bcrypt pour le stockage sécurisé
+4. **Régénération de session** - Prévention contre la fixation de session
+5. **Autorisation** - Vérification que l'utilisateur ne peut manipuler que ses propres livres
+6. **Validation côté client** - Prévention des soumissions invalides
 
-## 👥 Test Accounts
+## 💻 Technologies utilisées
 
-The application comes pre-loaded with realistic test data representing different user levels:
+### Backend
+- **Laravel 12** - Framework PHP moderne
+- **SQLite** - Base de données légère (configurable pour d'autres SGBD)
+- **PHP 8.2** - Langage de programmation côté serveur
 
-### 🔑 Administrator Account
+### Frontend
+- **Vue.js 4** - Framework JavaScript progressif
+- **Vue Router** - Routeur officiel pour Vue.js
+- **Tailwind CSS** - Framework CSS utilitaire
+- **Vite** - Outil de build moderne
 
-- **Email**: `admin@breitling.com`
-- **Password**: `password`
-- **Level**: Timekeeper (1,500,000 points)
-- **Access**: Full administrative privileges
+### Outils de développement
+- **Composer** - Gestionnaire de dépendances PHP
+- **NPM** - Gestionnaire de paquets JavaScript
+- **Git** - Système de contrôle de version
 
-### 👤 Expert Users (Diamond Tier)
+## 🌟 Fonctionnalités avancées
 
-- **Sarah Johnson**: `sarah.johnson@breitling.com` - Aviation specialist (450,000 points)
-- **Marcus Weber**: `marcus.weber@breitling.com` - Chronograph expert (380,000 points)
+### Mode sombre/clair
+L'application propose un thème sombre et clair qui peut être basculé à tout moment. Ce paramètre est sauvegardé localement pour être mémorisé entre les sessions. De plus, l'application détecte la préférence système et applique automatiquement le thème approprié.
 
-### 🥉 Professional Users (Platinum Tier)
+### Optimisation des images
+Les images de couverture sont stockées efficacement avec une approche hybride :
+- L'image binaire est stockée en base de données pour un accès rapide
+- L'URL d'origine est conservée pour référence
+- Une image par défaut est utilisée si l'URL est invalide
 
-- **Elena Rodriguez**: `elena.rodriguez@breitling.com` - Diving expert (220,000 points)
-- **Thomas Chen**: `thomas.chen@breitling.com` - Technology specialist (180,000 points)
+### Gestion d'état réactive
+L'application utilise le système réactif de Vue.js pour maintenir l'état de l'interface utilisateur en synchronisation avec les données :
+- Les mises à jour des livres sont reflétées immédiatement dans l'interface
+- Les filtres sont appliqués dynamiquement sans rechargement
+- Les transitions et animations rendent l'expérience fluide
 
-### 🥈 Experienced Users (Gold Tier)
+## 📝 Conclusion
 
-- **Marie Dubois**: `marie.dubois@breitling.com` - Collector specialist (120,000 points)
-- **David Thompson**: `david.thompson@breitling.com` - Sales expert (95,000 points)
-- **Anna Kowalski**: `anna.kowalski@breitling.com` - Heritage specialist (88,000 points)
+Lightshelf représente une implémentation complète d'une application web moderne avec une architecture séparée entre frontend et backend. La mise en œuvre manuelle des fonctionnalités d'authentification et de gestion des données démontre une compréhension approfondie des concepts de développement web.
 
-### 🥉 Intermediate Users (Silver Tier)
-
-- **James Miller**: `james.miller@breitling.com` - Training participant (45,000 points)
-- **Lisa Anderson**: `lisa.anderson@breitling.com` - Boutique specialist (52,000 points)
-- **Roberto Silva**: `roberto.silva@breitling.com` - Regional representative (38,000 points)
-
-### 🌱 New Users (Bronze Tier)
-
-- **Sophie Martin**: `sophie.martin@breitling.com` - Recent trainee (15,000 points)
-- **Yuki Tanaka**: `yuki.tanaka@breitling.com` - New team member (22,000 points)
-
-**Default password for all accounts**: `password`
-
-## 🏗️ Technical Architecture
-
-### Backend (Laravel 12)
-
-- **Framework**: Laravel 12 with modern PHP 8.2+ features
-- **Database**: SQLite for development, MySQL/PostgreSQL ready for production
-- **API**: RESTful API design with Inertia.js for seamless SPA experience
-- **Authentication**: Laravel's built-in authentication with email verification
-- **Queue System**: Database-driven queue for background processing
-
-### Frontend (React 19)
-
-- **Framework**: React 19 with TypeScript for type safety
-- **Styling**: TailwindCSS 4.0 with custom design system
-- **Components**: Radix UI primitives for accessibility
-- **State Management**: React hooks and Inertia.js
-- **Build Tool**: Vite for fast development and optimized builds
-
-### Development Tools
-
-- **Code Quality**: ESLint, Prettier, and TypeScript for consistency
-- **Testing**: PHPUnit for backend, Jest for frontend
-- **Version Control**: Git with conventional commits
-- **CI/CD**: GitHub Actions ready configuration
-
-## 📊 Database Structure
-
-The application features a comprehensive database design:
-
-### Core Entities
-
-- **Users**: Complete user profiles with progress tracking
-- **Ranks**: 7-tier progression system
-- **Badges**: Specialized achievements and certifications
-- **Quizzes**: Flexible quiz system with rich content
-- **Questions & Choices**: Multiple choice questions with detailed feedback
-
-### Game Mechanics
-
-- **Quiz Battles**: Peer-to-peer competition system
-- **Novelties Arena**: Tournament-style competitions
-- **Responses**: Detailed answer tracking with timing
-- **Historique**: Comprehensive activity logging
-
-### Engagement Features
-
-- **User Badges**: Achievement tracking
-- **Novelties**: Product launch integration
-- **Leaderboards**: Real-time ranking calculations
-
-## 👨‍💻 Development
-
-### Available Scripts
-
-```bash
-# Setup the project
-npm run setup            # Setup all project
-
-# Development
-composer run dev         # Start full development environment
-php artisan serve        # Backend server only
-npm run dev              # Frontend development server
-
-# Building
-npm run build            # Production build
-npm run build:ssr        # Server-side rendering build
-
-# Code Quality
-npm run lint             # Run ESLint
-npm run format           # Format code with Prettier
-npm run types            # TypeScript type checking
-
-# Testing
-php artisan test         # Run PHP tests
-npm run test             # Run JavaScript tests
-```
-
-### Development Guidelines
-
-1. **Code Style**: Follow PSR-12 for PHP and Prettier config for TypeScript
-2. **Git Workflow**: Use conventional commits and feature branches
-3. **Testing**: Write tests for new features and maintain coverage
-4. **Documentation**: Update README and inline documentation
-
-## 🧪 Testing
-
-The project includes comprehensive testing:
-
-### Backend Testing (PHPUnit)
-
-```bash
-php artisan test                    # Run all tests
-php artisan test --filter=Feature   # Feature tests only
-php artisan test --filter=Unit      # Unit tests only
-```
-
-### Frontend Testing
-
-```bash
-npm run test              # Run JavaScript tests
-npm run test:watch        # Watch mode for development
-npm run test:coverage     # Generate coverage report
-```
-
-### Test Data
-
-The application includes realistic test data:
-
-- **15 specialized users** across all ranking tiers
-- **15 comprehensive quizzes** covering all Breitling expertise areas
-- **75+ quiz questions** with detailed explanations
-- **Active competitions** and historical data
-
-## 📚 Documentation
-
-### Additional Resources
-
-- **Business Requirements**: See `BreitlingLeague_BrochureExplicative.pdf` for detailed game rules
-- **API Documentation**: Available at `/docs` when running in development mode
-- **Database Schema**: Check `database/migrations/` for complete structure
-- **Component Library**: Explore `resources/js/components/` for UI components
-
-### Learning Path
-
-1. **New Developers**: Start with Laravel and React documentation
-2. **Feature Development**: Review existing quiz and battle implementations
-3. **UI/UX**: Study the component library and design system
-4. **Testing**: Follow existing test patterns in `tests/` directory
-
-## 📄 License
-
-This project is developed for educational purposes as part of the ProjArt course at HEIG-VD.
-
-**Team DJMK**: Daniel Vale, Jonathan Pinard, Joé Favre, Marc Bouriot, Kevin Dos Santos
+L'application offre une expérience utilisateur fluide et intuitive tout en maintenant un haut niveau de sécurité et de performance. Le design responsive et le support du mode sombre/clair illustrent l'attention portée à l'expérience utilisateur.
 
 ---
 
-<div align="center">
-
-**Developed with ❤️ for Breitling**  
-_Part of the ProjArt course at HEIG-VD_
-
-<a href="#top">⬆ Return to Top</a>
-
-</div>
+Développé avec 💙 par K-sel

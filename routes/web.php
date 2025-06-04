@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\League\ArenaController;
+use App\Http\Controllers\League\BadgeController;
 use App\Http\Controllers\League\BattleController;
 use App\Http\Controllers\League\ImagesController;
 use Illuminate\Support\Facades\Route;
@@ -45,10 +46,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
             });
         });
 
+        /* A FAIRE */
         Route::prefix('/novelties')->group(function () {
             Route::get('/', [ArenaController::class, 'isNoveltyOccuring'])->name('');
             Route::get('/arena-quiz', [ArenaController::class, 'getArenaQuiz'])->name('');
             Route::get('/results', [ArenaController::class, 'getArenaResults'])->name('');
+        });
+
+        Route::prefix('/badges')->group(function () {
+            Route::post('/', [BadgeController::class, 'addBadge'])->name('');
+            Route::post('/user', [BadgeController::class, 'addBadgeToUser'])->name('');
+            Route::get('/', [BadgeController::class, 'getBadges'])->name('');
         });
 
         Route::prefix('/user')->group(function () {

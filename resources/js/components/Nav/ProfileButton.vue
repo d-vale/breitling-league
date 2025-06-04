@@ -14,7 +14,7 @@ const goToProfile = () => {
 </script>
 
 <template>
-    <div class="nav-item" @click="goToProfile" :class="{ active: isActive }">
+    <div class="nav-item" @click="goToProfile" :class="{ active: false }">
         <svg
             width="18"
             height="20"

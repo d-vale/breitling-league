@@ -14,7 +14,7 @@ const goToBattle = () => {
 </script>
 
 <template>
-    <div class="nav-item" @click="goToBattle" :class="{ active: isActive }">
+    <div class="nav-item" @click="goToBattle" :class="{ active: false }">
         <svg
             width="20"
             height="20"

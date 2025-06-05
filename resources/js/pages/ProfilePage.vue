@@ -3,7 +3,7 @@ import TheNavBar from "../components/TheNavBar.vue";
 </script>
 
 <template>
-    <div><h1>Home</h1></div>
+    <div><h1>Profile</h1></div>
     <TheNavBar />
 </template>
 

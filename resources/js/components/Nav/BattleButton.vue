@@ -1,20 +1,14 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import battleSvg from "../assets/navbar-icons/battle-icon.svg";
+import { RouterLink, useRoute } from "vue-router";
+import { computed } from "vue";
 
-const router = useRouter();
 const route = useRoute();
 
-const isActive = ref(route.name === "battle");
-
-const goToBattle = () => {
-    router.push({ name: "battle" });
-};
+const isActive = computed(() => route.path === "/battle");
 </script>
 
 <template>
-    <div class="nav-item" @click="goToBattle" :class="{ active: false }">
+    <RouterLink to="/battle" class="nav-item" :class="{ active: isActive }">
         <svg
             width="20"
             height="20"
@@ -30,8 +24,8 @@ const goToBattle = () => {
                 stroke-linejoin="round"
             />
         </svg>
-        <p>Battle</p>
-    </div>
+        <p class="battle">Battle</p>
+    </RouterLink>
 </template>
 
 <style scoped>
@@ -39,20 +33,20 @@ const goToBattle = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: #F5F5F5;
     cursor: pointer;
     padding: 5px;
     opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.nav-item:hover {
-    opacity: 1;
+    transition: opacity 0.2s, color 0.2s;
 }
 
 .nav-item.active {
-    color: #ffc107;
+    color: #FFC107;
     opacity: 1;
+}
+
+.nav-item.active p {
+    color: #FFC107;
 }
 
 svg {
@@ -63,5 +57,6 @@ svg {
 p {
     margin: 5px 0 0;
     font-size: 12px;
+    transition: color 0.2s;
 }
 </style>

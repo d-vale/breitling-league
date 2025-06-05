@@ -1,20 +1,14 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import homeSvg from "../assets/navbar-icons/home-icon.svg"; // Ajustez le chemin selon votre structure
+import { RouterLink, useRoute } from "vue-router";
+import { computed } from "vue";
 
-const router = useRouter();
 const route = useRoute();
 
-const isActive = ref(route.name === "home");
-
-const goToHome = () => {
-    router.push({ name: "home" });
-};
+const isActive = computed(() => route.path === "/");
 </script>
 
 <template>
-    <div class="nav-item" @click="goToHome" :class="{ active: false }">
+    <RouterLink to="/" class="nav-item" :class="{ active: isActive }">
         <svg
             width="20"
             height="21"
@@ -31,7 +25,7 @@ const goToHome = () => {
             />
         </svg>
         <p>Home</p>
-    </div>
+    </RouterLink>
 </template>
 
 <style scoped>
@@ -39,20 +33,20 @@ const goToHome = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: #f5f5f5;
     cursor: pointer;
     padding: 5px;
     opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.nav-item:hover {
-    opacity: 1;
+    transition: opacity 0.2s, color 0.2s;
 }
 
 .nav-item.active {
     color: #ffc107;
     opacity: 1;
+}
+
+.nav-item.active p {
+    color: #ffc107;
 }
 
 svg {
@@ -63,5 +57,6 @@ svg {
 p {
     margin: 5px 0 0;
     font-size: 12px;
+    transition: color 0.2s;
 }
 </style>

@@ -1,20 +1,14 @@
 <script setup>
-import { ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import profileSvg from "../assets/navbar-icons/profile-icon.svg"; // Ajustez le chemin selon votre structure
+import { RouterLink, useRoute } from "vue-router";
+import { computed } from "vue";
 
-const router = useRouter();
 const route = useRoute();
 
-const isActive = ref(route.name === "profile");
-
-const goToProfile = () => {
-    router.push({ name: "profile" });
-};
+const isActive = computed(() => route.path === "/profile");
 </script>
 
 <template>
-    <div class="nav-item" @click="goToProfile" :class="{ active: false }">
+    <RouterLink to="/profile" class="nav-item" :class="{ active: isActive }">
         <svg
             width="18"
             height="20"
@@ -31,7 +25,7 @@ const goToProfile = () => {
             />
         </svg>
         <p>Profile</p>
-    </div>
+    </RouterLink>
 </template>
 
 <style scoped>
@@ -39,24 +33,30 @@ const goToProfile = () => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: white;
+    color: #F5F5F5;
     cursor: pointer;
     padding: 5px;
     opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.nav-item:hover {
-    opacity: 1;
+    transition: opacity 0.2s, color 0.2s;
 }
 
 .nav-item.active {
-    color: #ffc107;
+    color: #FFC107;
     opacity: 1;
+}
+
+.nav-item.active p {
+    color: #FFC107;
+}
+
+svg {
+    width: 24px;
+    height: 24px;
 }
 
 p {
     margin: 5px 0 0;
     font-size: 12px;
+    transition: color 0.2s;
 }
 </style>

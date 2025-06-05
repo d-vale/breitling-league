@@ -4,26 +4,55 @@ import TheNavBar from "./components/TheNavBar.vue";
 import TheHeader from "./components/TheHeader.vue";
 </script>
 
-
 <template>
-    <header>
-        <TheHeader />
-    </header>
-    <main>
-        <RouterView></RouterView>
-    </main>
-    <footer><TheNavBar /></footer>
+    <div class="app-container">
+        <header>
+            <TheHeader />
+        </header>
+        <main class="main-content">
+            <RouterView></RouterView>
+        </main>
+        <footer class="footer-nav">
+            <TheNavBar />
+        </footer>
+    </div>
 </template>
 
 <style>
-:root{
+:root {
     background-color: var(--bg-default);
 }
 
 html,
 body {
+    margin: 0;
+    padding: 0;
     background-color: var(--bg-default);
     overflow-x: hidden;
+    height: 100%;
+}
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 80px; /* Espace pour le footer */
+}
+
+.footer-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--bg-default, #fff);
+    border-top: 1px solid var(--border-color, #e5e7eb);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
@@ -35,5 +64,17 @@ body {
 * {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+/* Assurer que le contenu peut scroller */
+body {
+    overflow-y: auto !important;
+}
+
+/* Style pour éviter que le contenu soit coupé */
+@media (max-width: 768px) {
+    .main-content {
+        padding-bottom: 100px; /* Plus d'espace sur mobile */
+    }
 }
 </style>

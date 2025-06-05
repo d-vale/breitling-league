@@ -10,13 +10,16 @@ use Illuminate\Http\JsonResponse;
 
 class RankingController extends Controller
 {
+
     /**
      * Obtient le classement global de tous les utilisateurs actifs
      * classés par points décroissants
      */
-    public function getGlobalRanking(): JsonResponse
+    public function getGlobalRanking(Request $request): JsonResponse
     {
         try {
+            $currentUser = $request->user();
+
             $users = User::with('rank')
                 ->where('isActive', true)
                 ->where('profile_complete', true)
@@ -24,13 +27,14 @@ class RankingController extends Controller
                 ->orderBy('created_at', 'asc') // En cas d'égalité, le plus ancien utilisateur est premier
                 ->get();
 
-            $ranking = $users->map(function ($user, $index) {
+            $ranking = $users->map(function ($user, $index) use ($currentUser) {
                 return [
                     'position' => $index + 1,
                     'user_id' => $user->id,
                     'name' => $user->name,
                     'nickname' => $user->nickname,
                     'points' => $user->points,
+                    'is_current_user' => $currentUser ? $user->id === $currentUser->id : false,
                     'rank' => [
                         'id' => $user->rank->id,
                         'name' => $user->rank->name,
@@ -40,14 +44,38 @@ class RankingController extends Controller
                 ];
             });
 
+            // Récupérer les informations de l'utilisateur connecté
+            $currentUserInfo = null;
+            $currentUserPosition = null;
+
+            if ($currentUser) {
+                $currentUserRanking = $ranking->where('is_current_user', true)->first();
+                if ($currentUserRanking) {
+                    $currentUserPosition = $currentUserRanking['position'];
+                    $currentUserInfo = [
+                        'id' => $currentUser->id,
+                        'name' => $currentUser->name,
+                        'nickname' => $currentUser->nickname,
+                        'points' => $currentUser->points,
+                        'position' => $currentUserPosition,
+                        'rank' => $currentUser->rank ? [
+                            'id' => $currentUser->rank->id,
+                            'name' => $currentUser->rank->name,
+                            'min_points' => $currentUser->rank->min_points,
+                        ] : null,
+                    ];
+                }
+            }
+
             return response()->json([
                 'success' => true,
                 'data' => [
                     'ranking' => $ranking,
                     'total_users' => $ranking->count(),
+                    'current_user' => $currentUserInfo,
+                    'current_user_position' => $currentUserPosition,
                 ],
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -115,7 +143,6 @@ class RankingController extends Controller
                     'current_user_position' => $ranking->where('is_current_user', true)->first()['position'] ?? null,
                 ],
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -209,7 +236,6 @@ class RankingController extends Controller
                     ] : null,
                 ],
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,

@@ -2,7 +2,7 @@
 import BadgePoints from "@/components/Header/BadgePoints.vue";
 import InboxButton from "@/components/Header/InboxButton.vue";
 import WelcomeTitle from "@/components/Header/WelcomeTitle.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, provide } from "vue";
 
 // États centralisés
 const userData = ref({
@@ -13,6 +13,8 @@ const userData = ref({
         name: ""
     }
 });
+
+provide("userData", userData);
 
 const rankingData = ref({
     position: 0,

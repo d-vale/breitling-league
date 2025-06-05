@@ -16,13 +16,13 @@ import TheHeader from "./components/TheHeader.vue";
 </template>
 
 <style>
-:root {
-    background-color: #000000;
+:root{
+    background-color: var(--bg-default);
 }
 
 html,
 body {
-    background-color: #000000;
+    background-color: var(--bg-default);
     overflow-x: hidden;
 }
 

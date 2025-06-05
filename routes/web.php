@@ -13,28 +13,14 @@ use App\Http\Controllers\League\UserController;
 use App\Http\Controllers\League\ImagesController;
 
 
-
-// Auth routes
-Route::get('/register', [AuthController::class, 'showRegister'])->name('showRegister')->middleware('guest');
-Route::post('/register', [AuthController::class, 'createAccount'])->name('create');
-Route::get('/login', [AuthController::class, 'showLogin'])->name('showLogin')->middleware('guest');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::delete('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-Route::get('/edit-password', [App\Http\Controllers\PasswordController::class, 'edit'])
-    ->name('password.edit')
-    ->middleware('auth');
-
-
 Route::get('/', function () {
-    return Auth::check() ? view('index') : view('landing');
+    return Auth::check() ? view('index') : view('login');
 })->name('landing');
 
 
-// Route pour traiter la modification du mot de passe
-Route::post('/password/update', [App\Http\Controllers\PasswordController::class, 'update'])
-    ->name('password.update')
-    ->middleware('auth');
-
+Route::get('/login', [AuthController::class, 'showLogin'])->name('showLogin')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::delete('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 //API Routes
 Route::prefix('api/v1')->group(function () {
@@ -80,7 +66,6 @@ Route::prefix('api/v1')->group(function () {
         Route::get('/', [ImagesController::class, 'listImages'])->name('images.list');
     });
 });
-
 
 
 // Vue routes

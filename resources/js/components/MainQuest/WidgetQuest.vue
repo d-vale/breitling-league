@@ -194,10 +194,9 @@ onMounted(() => {
     align-items: center;
     gap: 20px;
     padding: 20px;
-    background-color: #2a2a2a;
+    background-color: var(--card-bg);
     border-radius: 20px;
-    width: auto;
-    margin: 25px;
+    width: 100%; /* ← Change de auto à 100% */
     box-sizing: border-box;
 }
 

@@ -1,10 +1,11 @@
-<script setup>
-import TheNavBar from "../components/TheNavBar.vue";
-</script>
+<script setup></script>
 
 <template>
-    <div><h1>Ranking</h1></div>
-    <TheNavBar />
+    <div>
+        <h1>Welcome to the Ranking Page</h1>
+        <p>This is the main content of the Ranking page.</p>
+    </div>
 </template>
 
 <style scoped></style>
+

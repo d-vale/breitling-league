@@ -1,10 +1,10 @@
-<script setup>
-import TheNavBar from "../components/TheNavBar.vue";
-</script>
+<script setup></script>
 
 <template>
-    <div><h1>Profile</h1></div>
-    <TheNavBar />
+    <div>
+        <h1>Welcome to the Profile Page</h1>
+        <p>This is the main content of the Profile page.</p>
+    </div>
 </template>
 
 <style scoped></style>

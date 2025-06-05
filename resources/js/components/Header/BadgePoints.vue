@@ -1,42 +1,23 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 import BreitlingBadge from "@/assets/BreitlingSvg.vue";
 
-const userPoints = ref(0);
+// Props reçues du parent
+const props = defineProps({
+    userPoints: {
+        type: Number,
+        default: 0
+    },
+    isLoading: {
+        type: Boolean,
+        default: false
+    }
+});
 
 // Computed pour formater les points avec des apostrophes
 const formattedPoints = computed(() => {
-    return userPoints.value.toLocaleString('fr-CH').replace(/\s/g, "'");
-});
-
-const fetchUserPoints = async () => {
-    try {
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content");
-        const defaultHeaders = {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XmlHttpRequest",
-            Accept: "application/json",
-            "X-CSRF-TOKEN": csrfToken,
-        };
-        const response = await fetch("/api/v1/user", {
-            method: "GET",
-            headers: defaultHeaders,
-        });
-
-        const user = await response.json();
-
-        if (user.success && user.data) {
-            userPoints.value = user.data.points || 0;
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération des points:", error);
-    }
-};
-
-onMounted(() => {
-    fetchUserPoints();
+    if (props.isLoading) return "...";
+    return props.userPoints.toLocaleString('fr-CH').replace(/\s/g, "'");
 });
 </script>
 

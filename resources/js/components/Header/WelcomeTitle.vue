@@ -1,14 +1,33 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { computed } from "vue";
 
-const userName = ref("");
-const userRank = ref("");
-const userPosition = ref(0);
-const totalUsers = ref(0);
+// Props reçues du parent
+const props = defineProps({
+    userName: {
+        type: String,
+        default: "User"
+    },
+    userRank: {
+        type: String,
+        default: "Unranked"
+    },
+    userPosition: {
+        type: Number,
+        default: 0
+    },
+    totalUsers: {
+        type: Number,
+        default: 0
+    },
+    isLoading: {
+        type: Boolean,
+        default: false
+    }
+});
 
 // Computed pour obtenir la couleur du rang
 const rankColor = computed(() => {
-    switch (userRank.value.toLowerCase()) {
+    switch (props.userRank.toLowerCase()) {
         case "bronze":
             return "#cd7f32";
         case "silver":
@@ -20,59 +39,18 @@ const rankColor = computed(() => {
         case "diamond":
             return "#B9F2FF";
         case "master":
-            return "#D877FF"; // Or pour Master
+            return "#D877FF";
         case "timekeeper":
-            return "#DC2543"; // 
+            return "#DC2543";
         default:
-            return "#6b7280"; // 
+            return "#6b7280";
     }
 });
 
-const fetchUserData = async () => {
-    try {
-        const csrfToken = document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content");
-
-        const defaultHeaders = {
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
-            Accept: "application/json",
-            "X-CSRF-TOKEN": csrfToken,
-        };
-
-        // Fetch user data
-        const userResponse = await fetch("/api/v1/user", {
-            method: "GET",
-            headers: defaultHeaders,
-        });
-        const userData = await userResponse.json();
-
-        if (userData.success && userData.data) {
-            userName.value =
-                userData.data.firstname || userData.data.name || "User";
-            userRank.value = userData.data.rank?.name || "Unranked";
-        }
-
-        // Fetch ranking position
-        const rankingResponse = await fetch("/api/v1/ranking/pos", {
-            method: "GET",
-            headers: defaultHeaders,
-        });
-        const rankingData = await rankingResponse.json();
-
-        if (rankingData.success && rankingData.data) {
-            userPosition.value = rankingData.data.global_ranking?.position || 0;
-            totalUsers.value =
-                rankingData.data.global_ranking?.total_users || 0;
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération des données:", error);
-    }
-};
-
-onMounted(() => {
-    fetchUserData();
+// Computed pour afficher le rang et la position
+const displayRankPosition = computed(() => {
+    if (props.isLoading) return "Loading...";
+    return `${props.userRank} #${props.userPosition}`;
 });
 </script>
 
@@ -80,8 +58,8 @@ onMounted(() => {
     <div class="welcome-container">
         <h1 class="welcome-text">Welcome {{ userName }}</h1>
         <p class="ranking-text">
-            <span :style="{ color: rankColor }"
-                >{{ userRank }} #{{ userPosition }}
+            <span :style="{ color: rankColor }">
+                {{ displayRankPosition }}
             </span>
         </p>
     </div>
@@ -110,6 +88,4 @@ onMounted(() => {
     line-height: 1;
     font-family: "Open Sans Condensed", serif;
 }
-
-
 </style>

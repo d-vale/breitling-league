@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,24 +15,14 @@
 
 </head>
 
-    <body>
+<body>
+    @auth
+        <div id="app"></div>
+    @endauth
 
-        @auth
-            @if (Request::path() !== 'edit-password')
-                <div id="app"></div>
-            @else
-                @yield('auth')
-            @endif
-        @endauth
-
-        @guest
-            @if (Request::is('login') || Request::is('register'))
-                @yield('auth')
-            @else
-                @yield('landing')
-            @endif
-        @endguest
-
-    </body>
+    @guest
+        @yield('auth')
+    @endguest
+</body>
 
 </html>

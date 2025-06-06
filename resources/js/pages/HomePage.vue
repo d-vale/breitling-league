@@ -319,7 +319,7 @@ provide("rankInfos", rankInfos);
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 16px;
+    gap: 25px;
     padding: 25px;
 }
 

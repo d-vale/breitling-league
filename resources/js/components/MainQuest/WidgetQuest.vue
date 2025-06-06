@@ -104,7 +104,7 @@ const props = defineProps({
 .left-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 15 px;
     flex: 1;
 }
 

@@ -1,10 +1,10 @@
 <script setup>
-import { ref, computed, provide, onMounted, watchEffect } from "vue";
+import { ref, computed, provide, onMounted } from "vue";
 import Table from "../components/Table/Table.vue";
 
 const rankingLeague = ref({});
 const rankingGlobal = ref({});
-const rankingSalesTeam = ref({}); // Ajout pour l'équipe de vente
+const rankingSalesTeam = ref({});
 const userData = ref({
     rank: {
         name: "Bronze",
@@ -19,13 +19,26 @@ const activeTab = ref("Global"); // Tab actif par défaut
 const currentRankingData = computed(() => {
     switch (activeTab.value) {
         case "League":
-            return rankingLeague.value;
+            return {
+                ...rankingLeague.value,
+                isGlobal: false
+            };
         case "Global":
-            return rankingGlobal.value;
+            return {
+                ...rankingGlobal.value,
+                isGlobal: true
+            };
         case "Sales Team":
-            return rankingSalesTeam.value;
+            return {
+                ...rankingSalesTeam.value,
+                isGlobal: false,
+                customTitle: "Sales Team"
+            };
         default:
-            return rankingGlobal.value;
+            return {
+                ...rankingGlobal.value,
+                isGlobal: true
+            };
     }
 });
 
@@ -86,7 +99,18 @@ const fetchRankingDataFromLeague = async () => {
 
         const data = await response.json();
         if (data.success && data.data) {
-            rankingLeague.value = data.data;
+            // Normaliser la structure des données
+            rankingLeague.value = {
+                ranking: data.data.ranking || [],
+                current_user: data.data.current_user_position ? {
+                    position: data.data.current_user_position,
+                    nickname: userData.value.nickname || userData.value.name,
+                    points: userData.value.points,
+                    rank_name: userData.value.rank?.name
+                } : null,
+                league_name: data.data.league_name,
+                total_users_in_league: data.data.total_users_in_league
+            };
             console.log("League ranking data", rankingLeague.value);
         } else {
             console.error("No ranking data found");
@@ -117,7 +141,13 @@ const fetchRankingDataFromGlobal = async () => {
 
         const data = await response.json();
         if (data.success && data.data) {
-            rankingGlobal.value = data.data;
+            // Normaliser la structure des données
+            rankingGlobal.value = {
+                ranking: data.data.ranking || [],
+                current_user: data.data.current_user,
+                total_users: data.data.total_users,
+                current_user_position: data.data.current_user_position
+            };
             console.log("Global Ranking Data:", rankingGlobal.value);
         } else {
             console.error("No ranking data found");
@@ -148,7 +178,18 @@ const fetchRankingDataFromSalesTeam = async () => {
 
         const data = await response.json();
         if (data.success && data.data) {
-            rankingSalesTeam.value = data.data;
+            // Simuler des données de Sales Team basées sur les données POS
+            // En réalité, vous devriez avoir un endpoint dédié
+            rankingSalesTeam.value = {
+                ranking: [], // Vous devriez avoir des données réelles ici
+                current_user: {
+                    position: data.data.global_ranking?.position || 0,
+                    nickname: userData.value.nickname || userData.value.name,
+                    points: userData.value.points,
+                    rank_name: userData.value.rank?.name
+                },
+                title: "Sales Team"
+            };
             console.log("Sales Team Ranking Data:", rankingSalesTeam.value);
         } else {
             console.error("No sales team ranking data found");
@@ -185,6 +226,8 @@ const fetchUserData = async () => {
                     min_points: result.data.rank?.min_points || 0,
                 },
                 points: result.data.points || 0,
+                nickname: result.data.nickname,
+                name: result.data.name
             };
         }
     } catch (error) {

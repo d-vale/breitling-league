@@ -2,18 +2,43 @@
 import { RouterView } from "vue-router";
 import TheNavBar from "./components/TheNavBar.vue";
 import TheHeader from "./components/TheHeader.vue";
+import { computed, ref, watch } from "vue";
+import { useRoute } from "vue-router";
+import TheQuizHeader from "./components/TheQuizHeader.vue";
+
+const route = useRoute();
+const previousUrl = ref(null);
+
+const isQuiz = computed(() => {
+    return route.path === "/quiz" || route.path === "/quiz/arena";
+});
+
+// Surveiller les changements de route pour capturer l'URL précédente
+watch(
+    () => route.path,
+    (newPath, oldPath) => {
+        // Si on navigue vers une page de quiz, sauvegarder l'ancienne route
+        if ((newPath === "/quiz" || newPath === "/quiz/arena") && 
+            oldPath && 
+            oldPath !== "/quiz" && 
+            oldPath !== "/quiz/arena") {
+            previousUrl.value = oldPath;
+        }
+    }
+);
 </script>
 
 <template>
     <div class="app-container">
         <header>
-            <TheHeader />
+            <TheHeader v-if="!isQuiz" />
+            <TheQuizHeader v-if="isQuiz" :previous-url="previousUrl" />
         </header>
         <main class="main-content">
             <RouterView></RouterView>
         </main>
         <footer class="footer-nav">
-            <TheNavBar />
+            <TheNavBar v-if="!isQuiz" />
         </footer>
     </div>
 </template>

@@ -33,7 +33,7 @@ const rankColor = computed(() => {
         case "gold":
             return "#ffd700";
         case "platinum":
-            return "#e5e4e2";
+            return "#42B3A7";
         case "diamond":
             return "#b9f2ff";
         case "master":

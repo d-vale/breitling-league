@@ -9,7 +9,7 @@
     <meta name="api-base-url" content="{{ url('api/v1') }}">
     @vite('resources/css/app.css')
     @vite(['resources/js/app.js'])
-    <title>Lightshelf</title>
+    <title>Breitling League</title>
 
 </head>
 

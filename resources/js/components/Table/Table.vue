@@ -1,4 +1,4 @@
-<!-- RankingTable.vue -->
+<!-- Table.vue -->
 <script setup>
 import { computed, watchEffect } from "vue";
 import Row from "./TableRow.vue";
@@ -9,69 +9,122 @@ import RankTitle from "./RankTitle.vue";
 const props = defineProps({
     data: {
         type: Object,
+        default: () => ({})
     },
-});
-
-const ranking = computed(() => {
-    return props.data.ranking;
-});
-
-const currentUser = computed(() => {
-    if (props.data.current_user) {
-        return props.data.current_user;
+    // Props pour contrôler l'affichage des sections
+    showTitle: {
+        type: Boolean,
+        default: true
+    },
+    showYourRank: {
+        type: Boolean,
+        default: true
+    },
+    // Titre personnalisé si pas de données de rang
+    customTitle: {
+        type: String,
+        default: null
     }
 });
 
+// Computed properties sécurisées avec des valeurs par défaut
+const ranking = computed(() => {
+    return props.data?.ranking || [];
+});
+
+const currentUser = computed(() => {
+    return props.data?.current_user || null;
+});
+
 const isGlobal = computed(() => {
-    return props.data.isGlobal;
+    return props.data?.isGlobal || false;
+});
+
+// Titre à afficher
+const displayTitle = computed(() => {
+    if (props.customTitle) {
+        return props.customTitle;
+    }
+    
+    if (isGlobal.value) {
+        return "Global";
+    }
+    
+    // Pour les ligues, on utilise soit league_name soit le nom du rang
+    return props.data?.league_name || props.data?.rank?.name || "Ranking";
+});
+
+// Props pour RankTitle
+const rankTitleProps = computed(() => {
+    return {
+        isGlobal: isGlobal.value,
+        customTitle: props.customTitle,
+        title: displayTitle.value
+    };
+});
+
+// Props pour YourRank
+const yourRankProps = computed(() => {
+    if (!currentUser.value) return null;
+    
+    return {
+        position: currentUser.value.position || 0,
+        name: currentUser.value.nickname || currentUser.value.name || "Unknown",
+        points: currentUser.value.points || 0,
+        isGlobal: isGlobal.value,
+        rankName: currentUser.value.rank_name || currentUser.value.rank?.name || "Unranked"
+    };
 });
 
 watchEffect(() => {
-    if (props.data.current_user) {
-        console.log("Current User Position:", props.data.current_user);
-        console.log(
-            "TABLE DATA RECEIVED:",
-            props.data,
-            "Is Global:",
-            isGlobal.value
-        );
+    if (props.data && Object.keys(props.data).length > 0) {
+        console.log("TABLE DATA RECEIVED:", props.data);
+        console.log("Ranking:", ranking.value);
+        console.log("Current User:", currentUser.value);
+        console.log("Is Global:", isGlobal.value);
     }
 });
 </script>
 
 <template>
     <div>
-        <RankTitle :isGlobal="isGlobal"></RankTitle>
+        <!-- Titre de la section (conditionnel) -->
+        <div v-if="showTitle">
+            <RankTitle v-bind="rankTitleProps"></RankTitle>
+        </div>
+        
+        <!-- Votre position (conditionnel) -->
+        <div v-if="showYourRank && yourRankProps">
+            <YourRank v-bind="yourRankProps"></YourRank>
+        </div>
+        
+        <!-- Tableau principal -->
+        <table class="ranking-table" v-if="ranking.length > 0">
+            <thead>
+                <tr>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Points</th>
+                </tr>
+            </thead>
+            <tbody>
+                <Row
+                    v-for="player in ranking"
+                    :key="player.user_id || player.id || player.position"
+                    :position="player.position"
+                    :name="player.nickname || player.name"
+                    :points="player.points"
+                    :rankName="player.rank?.name || player.rank_name || 'Unranked'"
+                    :isGlobal="isGlobal"
+                />
+            </tbody>
+        </table>
+        
+        <!-- Message si aucune donnée -->
+        <div v-else class="no-data-message">
+            <p>No ranking data available</p>
+        </div>
     </div>
-    <div>
-        <YourRank
-            :position="currentUser?.position"
-            :name="currentUser?.nickname"
-            :points="currentUser?.points"
-            :isGlobal="isGlobal"
-            :rankName="currentUser?.rank_name"
-        ></YourRank>
-    </div>
-    <table class="ranking-table">
-        <thead>
-            <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Name</th>
-                <th scope="col">Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            <Row
-                v-for="player in ranking"
-                :key="player.user_id"
-                :position="player.position"
-                :name="player.nickname"
-                :points="player.points"
-                :rankName="player.rank.name"
-                :isGlobal="isGlobal"
-            />
-        </tbody>
-    </table>
 </template>
 
 <style scoped>
@@ -121,5 +174,12 @@ th:nth-child(3) {
 tbody {
     display: flex;
     flex-direction: column;
+}
+
+.no-data-message {
+    text-align: center;
+    padding: 2rem;
+    color: var(--sub-text-lighter);
+    font-family: "Inter", sans-serif;
 }
 </style>

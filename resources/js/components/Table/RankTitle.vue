@@ -1,10 +1,15 @@
 <script setup>
-import { inject, watchEffect } from "vue";
+import { inject } from "vue";
+
 const rankInfos = inject("rankInfos");
 
 const props = defineProps({
     isGlobal: {
         type: Boolean,
+    },
+    rankColor: {
+        type: String,
+        default: "#6b7280",
     },
 });
 </script>

@@ -98,15 +98,6 @@ const rankIcon = computed(() => {
     `;
 });
 
-const rankInfos = computed(() => {
-    return {
-        rankColor: rankColor.value,
-        rankName: userData.value.rank.name,
-    };
-});
-
-provide("rankInfos", rankInfos);
-
 const fetchRankingDataFromLeague = async () => {
     try {
         const csrfToken = document
@@ -221,6 +212,7 @@ const filteredLeagueData = computed(() => {
                 position: currentUserPosition,
                 nickname: currentUser.nickname,
                 points: currentUser.points,
+                rank_name: currentUser.rank.name,
             },
             league_name: rankingLeague.value.league_name,
             total_users_in_league: rankingLeague.value.total_users_in_league,
@@ -237,6 +229,7 @@ const filteredLeagueData = computed(() => {
             position: currentUserPosition,
             nickname: currentUser.nickname,
             points: currentUser.points,
+            rank_name: currentUser.rank.name,
         },
         league_name: rankingLeague.value.league_name,
         total_users_in_league: rankingLeague.value.total_users_in_league,
@@ -262,6 +255,7 @@ const filteredGlobalData = computed(() => {
                 position: currentUserPosition,
                 nickname: currentUser.nickname,
                 points: currentUser.points,
+                rank_name: currentUser.rank.name,
             },
             total_users: rankingGlobal.value.total_users,
             isGlobal: true,
@@ -277,6 +271,7 @@ const filteredGlobalData = computed(() => {
             position: currentUserPosition,
             nickname: currentUser.nickname,
             points: currentUser.points,
+            rank_name: currentUser.rank.name,
         },
         total_users: rankingGlobal.value.total_users,
     };
@@ -287,13 +282,21 @@ onMounted(() => {
     fetchRankingDataFromGlobal();
     fetchUserData();
 });
+
+const rankInfos = computed(() => {
+    return {
+        rankColor: rankColor.value,
+        rankName: userData.value.rank.name,
+    };
+});
+provide("rankInfos", rankInfos);
 </script>
 
 <template>
     <div>
         <div class="widget-main-quest">
-            <WidgetQuest 
-                :userData="userData" 
+            <WidgetQuest
+                :userData="userData"
                 :isLoading="isLoadingUser"
                 :rankColor="rankColor"
                 :rankIcon="rankIcon"

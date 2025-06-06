@@ -29,6 +29,12 @@ const isGlobal = computed(() => {
 watchEffect(() => {
     if (props.data.current_user) {
         console.log("Current User Position:", props.data.current_user);
+        console.log(
+            "TABLE DATA RECEIVED:",
+            props.data,
+            "Is Global:",
+            isGlobal.value
+        );
     }
 });
 </script>
@@ -42,6 +48,8 @@ watchEffect(() => {
             :position="currentUser?.position"
             :name="currentUser?.nickname"
             :points="currentUser?.points"
+            :isGlobal="isGlobal"
+            :rankName="currentUser?.rank_name"
         ></YourRank>
     </div>
     <table class="ranking-table">
@@ -56,9 +64,10 @@ watchEffect(() => {
             <Row
                 v-for="player in ranking"
                 :key="player.user_id"
-                :rank="player.position"
+                :position="player.position"
                 :name="player.nickname"
                 :points="player.points"
+                :rankName="player.rank.name"
                 :isGlobal="isGlobal"
             />
         </tbody>
